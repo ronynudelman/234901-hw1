@@ -40,7 +40,6 @@ struct UnionFind {
             parent[i]=i;
     }
 
-
     bool add_new_str(string s) {
         if (string_to_int.find(s) != string_to_int.end()) return false;
         string_to_int[s] = next_index;
@@ -60,7 +59,6 @@ struct UnionFind {
         }
         return x;
     }
-
 
     int find(int x) {
         int tmp=x;
@@ -112,10 +110,6 @@ bool is_exist(list<string>& l, string s) {
 
 
 void check_short_words_list(list<string>& short_words, struct UnionFind& uf) {
-    // this function calls to union for each two short words 'a' and 'ab'.
-    // because we sort the list first, then if there exist in the input two words like 'a' and 'ab',
-    // then, when it == 'ab', then curr_char == 'a'.
-    // so in this case we call union('a', 'ab')
     short_words.sort();
     // curr_char holds the last word which is of the size 1, like 'a', 'b', ...
     string curr_char("0");
@@ -131,9 +125,6 @@ void check_short_words_list(list<string>& short_words, struct UnionFind& uf) {
 
 
 void check_long_words_list(list<string>& short_words, list<string>& long_words, struct UnionFind& uf) {
-    // because we sort the list first, then we must check every two neighbors if they have the same prefix.
-    // also we need to check if the prefix of size 1 or 2 exist in the input
-    // if so, call union with the matching words
     long_words.sort();
     for (list<string>::iterator it = long_words.begin(); it != long_words.end(); ) {
         if (is_exist(short_words, (*it).substr(0, 1))) {
@@ -154,8 +145,6 @@ void check_long_words_list(list<string>& short_words, list<string>& long_words, 
 
 
 void check_forbidden_words_list(list<pair<string, string>>& forbidden_pairs, struct UnionFind& uf) {
-    // for each input of the form 'A not B', check if A and B are in the same group.
-    // if so, print error and exit
     for (auto& it : forbidden_pairs) {
         if (uf.find(it.first) == uf.find(it.second)) {
             cout << "wait what?" << endl;
@@ -169,7 +158,7 @@ void check_forbidden_words_list(list<pair<string, string>>& forbidden_pairs, str
 int main() {
     int N;
     cin >> N;
-    // short_words if a list which will contain only words of the size 1 or 2
+    // short_words is a list which will contain only words of the size 1 or 2
     list<string> short_words;
     // long_words is a list which will contain all the words of the size >=3
     list<string> long_words;
@@ -181,11 +170,6 @@ int main() {
         cin >> s1;
         cin >> relation;
         cin >> s2;
-        // we reverse every word in the input.
-        // so, instead of looking at the suffixes of the words,
-        // we look at the prefixes.
-        // this way, if we sort the input lists in a lexicographic order,
-        // we can find rhymes much easily
         reverse_str(s1);
         reverse_str(s2);
         bool first_is_new = uf.add_new_str(s1);

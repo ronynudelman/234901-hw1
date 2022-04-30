@@ -1,0 +1,30 @@
+The main idea is to reverse each word in the input.
+This way, instead of looking at the suffixes of each word,
+we can look at the prefixes only. Also, when sorting the words,
+we can find rhymes much more easily.
+
+We will use UF structure like we saw in the class but we will add to it
+a map so we can map between the strings of the input and the indexes
+of the vectors of the UF.
+
+After getting the input, we check only the words of length 2 or less.
+We sort these words and we call union() for each pair of the form 'x' and 'x?'.
+This can be done in linear time due to the words being sorted and reversed.
+
+Then, we take care of the words of length 3 or more.
+We sort there words and we call union() for each pair of the form 'abc*' and 'abc*'
+by going over the sorted list of words and checking each neighbor words.
+Also, we check these words against the short words and union matching words which rhyme.
+
+Finally, we go over each forbidden pair of words and check if these words are in the
+same group. If so, we print an error message. Otherwise, we finish successfully.
+
+
+Time complexity:
+
+Getting input - O(n)
+Processing short words - O(n*logn)
+Processing long words - O(n*logn)
+Checking forbidden pairs - O(n*logn)
+
+Total - O(n*logn) - ~2 million operations
