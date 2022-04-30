@@ -1,0 +1,16 @@
+Because the input ranges are small enough, we can simply run a brute force algorithm.
+We check every possible r and k in the range:
+We check each r between 0 and t while increasing it by 0.001 in each iteration.
+For each r and k (where k is t - r), we calculate what time would it take for each of the
+competitors to finish the race and check if the competitor who bribed the judge will win.
+We save the r and k for which this competitor will win with the biggest difference compared to the 2nd place.
+If we couldn't find such r and k for which the difference is a positive number, we output "The cheater cannot win".
+Otherwise, we output these r and k as requested.
+
+
+Time complexity:
+
+Getting input - O(n)
+Checking each possible r and k - O(t * 1000 * n)
+
+Total - O(t * 1000 * n) - ~2 million operations

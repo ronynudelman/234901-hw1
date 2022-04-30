@@ -22,12 +22,25 @@ typedef unsigned long long ull;
 typedef vector<int> vi;
 typedef pair<int, int> pii;
 
+
 void print_win(double diff, double r, double k) {
     diff *= 3600.0;
     // printf("The cheater can win by %d seconds with r = %.2fkm and k = %.2fkm.\n", (int)diff, r, k);
     printf("The cheater can win by %d seconds with r = %.2fkm and k = %.2fkm.\n", int(round(diff)), r, k);
 
 }
+
+
+double min_of_vec(vector<double>& v) {
+    double min = 1e10;
+    for (auto& t : v) {
+        if (t < min) {
+            min = t;
+        }
+    }
+    return min;
+}
+
 
 int main() {
     double t;
@@ -55,8 +68,8 @@ int main() {
             }
             double bribe_time = time.back();
             time.pop_back();
-            sort(time.begin(), time.end());
-            double diff = time[0] - bribe_time;
+            double best_legal_time = min_of_vec(time);
+            double diff = best_legal_time - bribe_time;
             if (diff >= best) {
                 found = true;
                 best = diff;
