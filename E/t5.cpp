@@ -29,6 +29,7 @@ typedef vector<vll> vvll;
 const ll MAX_POWER = 32;
 
 
+// return the first row of the initial matrix: 1 R 0 0 ... 0 L
 vll get_init_first_row(ll N, ll L, ll R) {
     vll init_first_row(N, 0);
     init_first_row[0] = 1;
@@ -38,6 +39,7 @@ vll get_init_first_row(ll N, ll L, ll R) {
 }
 
 
+// create a circulant matrix according to given first row
 vvll get_matrix_from_first_row(vll& first_row, ll N) {
     vvll matrix(N, vll(N, 0));
     ll starting_column = 0;
@@ -62,7 +64,7 @@ void mod_X_on_vec(vll& vec, ll X) {
 }
 
 
-vll get_next_row(vll& first_row, vvll& matrix, ll N) {
+vll multiply_vector_with_matrix(vll& first_row, vvll& matrix, ll N) {
     vll new_row(N, 0);
     for (ll curr_column = 0; curr_column < N; curr_column++) {
         ll sum = 0;
@@ -94,7 +96,7 @@ void run(ll N, ll S, ll L, ll R, ll X, vll& nums) {
     for (ll i = 1; i < MAX_POWER; i++) {
         vll prev_row = power_rows[i - 1];
         vvll prev_matrix = get_matrix_from_first_row(prev_row, N);
-        vll curr_row = get_next_row(prev_row, prev_matrix, N);
+        vll curr_row = multiply_vector_with_matrix(prev_row, prev_matrix, N);
         mod_X_on_vec(curr_row, X);
         power_rows[i] = curr_row;
     }
@@ -107,7 +109,7 @@ void run(ll N, ll S, ll L, ll R, ll X, vll& nums) {
         if (S_bits % 2 == 1) {
             vll curr_row = power_rows[curr_bit];
             vvll curr_matrix = get_matrix_from_first_row(curr_row, N);
-            final_row = get_next_row(final_row, curr_matrix, N);
+            final_row = multiply_vector_with_matrix(final_row, curr_matrix, N);
             mod_X_on_vec(final_row, X);
         }
         S_bits /= 2;

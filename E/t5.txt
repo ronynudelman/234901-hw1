@@ -1,0 +1,38 @@
+Similarely to how to calculate fibonacci series using matrixes multiplications,
+we also use matrixes multiplications in this problem to calculate the N numbers
+in each iteration.
+The matrix we will use is the following N X N matrix, which we will call A:
+
+1 R 0 0 ... 0 0 L
+L 1 R 0 0 ... 0 0
+0 L 1 R 0 0 ... 0
+.	  .
+.	    .
+.	      .
+0 ... 0 0 L 1 R 0
+0 0 ... 0 0 L 1 R
+R 0 0 ... 0 0 L 1
+
+We insert the initial values of the N number inside a column vector x.
+Then, the result of A*x will be a vector containing the values of the first iteration:
+For example, when multiplying the i'th row of A with x, the i'th cell (x'(i)) of the resulting vector is:
+x'(i) <- x(i-1) * L + x(i) * 1 + x(i+1) * R
+So, the resulting vector of (A^S)*x contains the values of the N numbers after S iterations as we wanted.
+
+We can notice that A is a circulant matrix, and its known that a multiplication of circulant matrixes
+is also a circulant matrix. Thus, to calculate the result matrix of B * C (where B and C are N X N circulant matrixes),
+we only need to multiply the first row of the B with the matrix C, which costs O(N^2) operations,
+and to save the row of the resulting multiplication for the next calculations.
+
+We also will use the fast exponentition algorithm we saw in class.
+So we need to calculate the following matrixes: A^(2^0), A^(2^1), ... , A^(2^30)
+and then multiply part of these matrixes according to the binary representation of S in order to get A^S.
+After each multiplication during the process, we will apply a mod(10^X) operation to each resulting vector.
+
+Time complexity:
+
+Calculating the series A^(2^i) - O(30 * N^2)
+Calculating A^S - O(30 * N^2)
+Calculating (A^S)*x - O(N^2)
+
+Total - O(60 * N ^ 2) - ~60 million operation
