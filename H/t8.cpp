@@ -59,6 +59,7 @@ bool BellmanFord(const vvii& g, int s, vi& d) {
 }
 
 
+// a mapping from {x,y} in the grid to some index in 1-dimensional vector
 int cordinates_to_index(ii cords, int W) {
     return cords.second * W + cords.first;
 }
@@ -67,13 +68,17 @@ int cordinates_to_index(ii cords, int W) {
 void fill_graph(vvii& g, si& stones, si& portals, int W, int H) {
     for (int x = 0; x < W; x++) {
         for (int y = 0; y < H; y++) {
+            // we don't add edges which their source is the exit cell
             if (x == W - 1 && y == H - 1) {
                 continue;
             }
             int curr_cords = cordinates_to_index({x, y}, W);
+            // we don't add edges to gravestone cells
             if (stones.find(curr_cords) != stones.end()) {
                 continue;
             }
+            // if current cell is a haunted hole then we don't need to
+            // add edges to its neighbor cells
             if (portals.find(curr_cords) != portals.end()) {
                 continue;
             }
