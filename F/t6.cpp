@@ -36,7 +36,7 @@ void get_input(int& N, vi& v) {
     }
 }
 
-
+// calculate all the primes up to MAX = 14000
 si get_all_primes(int max) {
     si primes;
     primes.insert(2);
