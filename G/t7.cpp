@@ -84,7 +84,7 @@ void findSCCgraph(const vvi& g, vsi& sccg) {
             sccg[component[u]].insert(component[v]);
 }
 
-
+// return the number of vertexes with zero in-degree
 int get_num_of_zero_indegree(vsi& sccg) {
     vector<bool> zero_indegree(sccg.size(), true);
     // for every edge v -> u
@@ -102,7 +102,7 @@ int get_num_of_zero_indegree(vsi& sccg) {
     return counter;
 }
 
-
+// return the number of vertexes with zero out-degree
 int get_num_of_zero_outdegree(vsi& sccg) {
     int counter = 0;
     for (auto& v : sccg) {

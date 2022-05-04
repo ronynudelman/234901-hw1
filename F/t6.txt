@@ -30,4 +30,4 @@ Calculating prime numbers up to 14,000 - O(MAX*sqrt(MAX)) - 1.65mil
 Calculating prices_per_subset - O((2^N) * sqrt(MAX)) - 2mil
 Running DP - O((2^N) * T) (T is the number of subsets of each subset in each iteration)
 
-Total - O((2^N) * sqrt(MAX)) - ~8 million operation
+Total - O((2^N) * sqrt(MAX)) - ~8 million operations

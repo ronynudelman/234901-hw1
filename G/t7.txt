@@ -1,0 +1,40 @@
+We will represent each statement with a vertex and will add
+an edge from s1 to s2 if s1 implies s2.
+
+Our goal is to add the minimum number of edges to the grpah
+so it will be strongly connected. This way, we can reach to
+every vertex from any other vertex, which means that all
+statements are equivalent.
+
+First, we will calculate the SCC graph by running the
+SCC algorithm to eliminate unnecessary edges. Strongly connected
+components don't give us any information so we can replace them with
+one vertex for each component, just like the SCC algorithm does.
+
+Then, we will notice that in order to get a fully connected graph,
+each edge must have in-degree and out-degree of at least one.
+If some vertex has in-degree = 0 then no other vertex can reach it,
+and if some vertex has out-degree = 0 then it can't reach any
+other vertex.
+
+Thus, we need to calculate number of vertexes in the SCC graph with
+zero in-degree and the number of vertexes in the SCC graph with
+zero out-degree. The minimum number of edges needed to make this
+graph strongly connected is the maximum of these two numbers.
+
+That's because we add enough edges to make each vertex to have
+none-zero in-degree and none-zero out-degree. We will
+connect the vertexes in such a way where the source of each edge
+is a zero out-degree vertex and the destination of each edge is a
+zero in-degree vertex. This way, the SCC graph becomes strongly
+connected and that means the original graph becomes strongly
+connected.
+
+
+Time complexity:
+
+Calculating SCC graph - O(n + m)
+Calculating number of vertexes with zero in-degree - O(n + m)
+Calculating number of vertexes with zero out-degree - O(n)
+
+Total - O(n + m) - ~70,000*Const operations
