@@ -24,20 +24,27 @@ typedef pair<int, int> pii;
 const int MAX_SIZE = 2000001;
 
 
+// return the minimal power of 2 which is above m
+int get_power_of_two_above_s(int s) {
+    int power_two = 1;
+    while (power_two <= s) {
+        power_two <<= 1;
+    }
+    return power_two;
+}
+
+
 class Tree {
 
 public:
     vector<int> vec;
     int size;
 
-    Tree(int s) : vec(vector<int>()), size(1) {
-        while (size < s) {
-            size *= 2;
-        }
+    Tree(int s) : vec(vector<int>()), size(get_power_of_two_above_s(s)) {
         // turn on all the odd bits and turn off all the even bits
-        vec = vector<int>(size * 2, 0);
-        for (int bit = 1; bit < size; bit += 2) {
-            modify(bit, 1);
+        vec = vector<int>(size * 2, 1);
+        for (int bit = 0; bit < size; bit += 2) {
+            modify(bit, 0);
         }
     }
 
@@ -101,7 +108,7 @@ void calc_sums(vector<bool>& lucky_nums) {
         }
         else {
             for (int i = next_num / 2; i > 0; i--) {
-                if (lucky_nums[i] && lucky_nums[next_num - i]) {
+                if (lucky_nums[next_num - i] && lucky_nums[i]) {
                     printf("%d is the sum of %d and %d.\n", next_num, i, next_num - i);
                     break;
                 }
@@ -112,8 +119,12 @@ void calc_sums(vector<bool>& lucky_nums) {
 
 
 int main() {
+    // if some index is true then it's a lucky number
+    // otherwise, it's not a lucky number
     vector<bool> lucky_nums(MAX_SIZE, false);
+    // calculate all the lucky numbers
     calc_lucky_nums(lucky_nums);
+    // print the output sums according to the input
     calc_sums(lucky_nums);
     return 0;
 }
