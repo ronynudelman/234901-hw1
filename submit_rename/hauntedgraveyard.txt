@@ -1,0 +1,21 @@
+The way to solve this problem is to simply use Bellman Ford algorithm.
+We define every cell in the graveyard as a vertex, and every possible transition
+from one cell to another as an edge.
+The weight of each edge is 1 if the cells are neighbors and t if the source cell is a haunted hole.
+Also, the problem tells us that once John finds the exit, he will leave the graveyard,
+even though indefinitely traveling back in time is possible. That means we need to remove
+every edge on the graph which its source is the exit cell.
+Moreover, we insert edges to the graph only if the source and the destenation cells of the
+edge are not gravestones, as we cannot walk over them.
+
+Number of vertexes <= 30 * 30 = 900
+Number of edges = (Number of neightbors of each vertex) * (Number of vertexes) + Number of haunted holes
+		<= (4) * (900) + 900
+		= 4500
+
+Time complexity:
+
+Building the graph - O(V + E)
+Running Bellman Ford - O(V * E)
+
+Total - O(V * E) - ~4 million operations

@@ -1,0 +1,33 @@
+In this problem, each number represents a subset of the input
+numbers S1, S2, ..., SN.
+This subset is determinded by the bits of the binary representation
+of the number.
+For example, with N = 4 and the number n = 9 = 0b 1001, the subset
+represented by the number is {S1, S4}.
+
+First, we calculate all the prime numbers up to 14,000,
+as this is the biggest number we will encounter when adding
+the input numbers together.
+Then, for each subset of {S1, ..., SN} we calculate the number
+of distinct prime factors of this subset number's sum and save those
+values in vector called prices_per_subset.
+Now we use DP: we create a vector A of size 2^N and define the n'th
+cell of the vector as following:
+A[n] = max revenue we can achieve when using only the numbers
+in the subset which is represented by n.
+The way to calculate each cell is:
+A[n] <- max over all subsets of n (subset revenue + A[n-subset])
+That is, we check each subset of the numbers represented by n
+and maximize the sum of the subset revenue and the revenue of the
+remaining numbers (n - subset).
+We get the subset revenue from the prices_per_subset vector and the
+revenue of the remaining numbers from A[n-subset].
+Finally, we return A[(2^N)-1] which is the max revenue of all input numbers.
+
+Time complexity:
+* we define MAX = 14,000
+Calculating prime numbers up to 14,000 - O(MAX*sqrt(MAX)) - 1.65mil
+Calculating prices_per_subset - O((2^N) * sqrt(MAX)) - 2mil
+Running DP - O((2^N) * T) (T is the number of subsets of each subset in each iteration)
+
+Total - O((2^N) * sqrt(MAX)) - ~8 million operations

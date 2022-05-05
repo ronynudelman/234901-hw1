@@ -1,0 +1,36 @@
+In order to solve this problem, we need to perform two steps:
+1. Calculate all the lucky numbers up to 2,000,000
+2. Return the appropriate lucky numbers according to each input
+
+The way to calculate all the lucky numbers is the naive way: for each lucky number, remove all the numbers
+which their location index is devidable by the lucky number.
+We can notice we can't do that using a list or a vector:
+Using a list, we need to traverse the whole list in each iteration.
+Using a vector, we need O(n) for every number removal.
+We want to have the ability to access numbers at certain indexes and remove them efficiently,
+thus we use a segment tree, where each operation costs O(log(n)) ~ 20 operations.
+
+Tree's size will be 2*n and the bottom tier (the last n elements) will consist of 0's and 1's.
+0 indicates that the matching index of the cell is not a lucky number while 1 indicates that
+the matching index of the cell is a lucky number.
+We can access each element in some index according to the sums in each node of the tree:
+if some node contains the number k, that means it has k 1's in its subtree. So we can walk the
+tree easily just like we saw in the course Data Structures, which costs O(log(n)).
+Removal of elements requires to turn off the appropriate bit and update all its ancestors which costs O(log(n)) too.
+So the main operation of finding the lucky numbers is by taking each lucky number: 3, 7, ..., and turn off all the
+bits in the tree where their location is devidable by the lucky number
+
+After calculating all the lucky numbers, we need to consider the input numbers.
+We can notice that each odd input number cannot be a sum of two lucky numbers, as all lucky numbers are odd too.
+After some experiments, I have noticed that each even number is a sum of two lucky numbers, and those two
+numbers can be found by taking the half of the input number and checking pairs which are close to this half.
+
+
+Time complexity:
+
+Calculating all the lucky numbers - O(S * log(n)) where S is the number of lucky numbers in the range [1, 2000000]
+Calculating the sums according to the input - O(INPUT_SIZE * T) where T is the difference between the input
+number devided by two and one of the output numbers. T is not a constant and is differs for each input number,
+but it's small enough to be considered as O(1).
+
+Total - O(S * log(n)) - ~3 million operations
