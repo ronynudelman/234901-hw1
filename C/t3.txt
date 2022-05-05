@@ -1,0 +1,32 @@
+We want to find the minimal cost we need to pay to get to the last square.
+Thus, we will hold a minimum priority queue which contains {cost, location, jump} nodes and this queue
+will be sorted by the cost.
+As long as we haven't reached to the last square, we check the minimal cost for some location and jump (the node in the
+top of the queue) and push to the queue the possible locations we can jump to from the current location we check.
+We don't always perform the push operation, but only under some circumstances. Read below for more info.
+
+We will maintain a map of {location, jump} -> cost.
+If for some location and jump, the map doesn't contain the node {location, jump}, that means we haven't visited this
+location with this jump value yet. Otherwise, the value of this node key holds the minimal cost we need to pay to get to
+this {location, jump} *accordring to our knownledge*. That means there is possibly lower cost we can pay to get to this
+{location, jump} but we don't know that yet.
+Every time during the simulation, if we find a cost we can pay to get to {location, jump} which is lower than the cost
+value of the matching node key in the map, we update the map and push to the queue the new cost with its matching location
+and jump values.
+
+Once we reached to the last square, we can immediately print the cost we have just popped out from the queue.
+All the other costs in the queue are even or greater than the current cost, and becuase all the entry fees are positive,
+we can't get to the last square with any other jumps sequence with lower price.
+
+
+Time complexity:
+
+Simlutaing the game by popping the minimal cost from the queue and updating the map - O(MAX_POPPING_FROM_QUEUE * MAP_UPDATE)
+
+where:
+MAX_POPPING_FROM_QUEUE - O(N * MAX_COST * MAX_JUMP) = O(N * (1000 * N) * N) = O(1000 * N^3)
+MAP_UPDATE - O(log(N * MAX_COST * MAX_JUMP)) - O(log(N * (1000 * N) * N)) = O(log(N))
+
+Total - O(N^3)
+The worst case would take up to ~1000^3 operations but it's not likely to happen.
+The actual average time is much less than that.
